@@ -1,0 +1,19 @@
+  <meta property="og:title" content="<%= @meta['title'] %>" />
+  <meta property="og:url" content="<%= @meta['url'] %>" />
+  <meta property="og:description" content="<%= @meta['description'] %>" />
+  <meta property="og:image" content="<%= @meta['image'] %>" />
+  <meta property="og:type" content="website" />
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@<%= @meta['twitter_name'] %>">
+  <meta name="twitter:title" content="<%= @meta['title'] %>" />
+  <script type="text/javascript">
+    var related = <%= @meta['twitter_name'].to_json %>;
+    var baseurl = <%= @base.url.to_json %>;
+    var city = <%= @base.city.to_json %>;
+    var state = <%= @base.state.to_json %>;
+    var state_abv = <%= @base.state_abv.to_json %>;
+    var hashtag = <%= @meta['twitter_hashtag'].to_json %>;
+  </script>
+  <meta name="twitter:text:description" content="<%= @meta['description'] %>" />
+  <meta name="twitter:image:src" content="<%= @meta['image'] %>" />

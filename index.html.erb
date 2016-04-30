@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title><%= @base.title %> Voter Guide</title>
+
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+<%= @meta_partial %>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1><%= @base.title %></h1>
+    <h1 class="big">Voter Guide</h1>
+    <h1>Vote by <%= @base.date %></h1>
+  </div>
+  <div class="section">
+    <div class="inner" >
+      <h2>The Revolution Comes to Portland</h2>
+      <p>Portland is feeling the Bern. But Bernie would tell you we need political revolution up and down the ballot. Find out which candidates best fit Bernie's progressive values.</p>
+      <h2>Have Your Say</h2>
+      <p>Click on the <a class="vote_for" style="position: relative; display: inline-block; bottom: auto; left: auto; margin: auto; font-size: 0.5em; padding: 2px; width: 60px;">Endorse</a> button to log your support for a candidate. We will announce the result the week before election day for each race.</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="inner" id="Mayor">
+      <h2>Portland Mayor</h2>
+      <% @candidates["Portland Mayor"].each do |candidate| %>
+         <div class="candidate <%= "row-#{[nil,1,2][@candidates.length]}" if @candidates.length < 3 %> long">
+          <h3><%= candidate['name'] %></h3>
+          <div class="img" style="background-image: url('<%= candidate["photo"] || 'images/unknown.jpg' %>');" ></div>
+          <div class="social">
+            <% if candidate['website'] %>
+              <a target="_blank" href="<%= candidate['website'] %>">
+                <i  class="fa fa-link"></i>
+                Website
+              </a>
+            <% end %>
+            <% if candidate['facebook'] %>
+              <a target="_blank" href="<%= candidate['facebook'] %>">
+              <i class="fa fa-facebook-square"></i>
+              Facebook
+              </a>
+            <% end %>
+          </div>
+          <div class="endorsements">
+            <h4>Endorsed By:</h4>
+            <ul >
+              <% candidate["endorsements"].split('|').each do |endorsement| %>
+                <li><%= endorsement %></li>
+              <% end %>
+            </ul>
+            <% if candidate['media'] %>
+              <h4>Newspapers:</h4>
+              <ul >
+                <% (candidate["media"] || '').split('|').each do |endorsement| %>
+                  <li><%= endorsement %></li>
+                <% end %>
+              </ul>
+            <% end %>
+          </div>
+          <a class="vote_for" data-name="<%= candidate["name"] %>" data-link="/sharing/candidates/<%= make_uri candidate['office'] %>-<%= make_uri candidate['name'] %>.html" data-office="<%= candidate['office'] %>" onclick="endorsementWidget(this)">endorse</a>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <% @contests.each do |contest| %>
+    <div class="section">
+      <div class="inner">
+        <h2><%= contest %></h2>
+        <% @candidates[contest].each do |candidate| %>
+          <div class="candidate <%= "row-#{[nil,1,2][@candidates[contest].length]}" if @candidates[contest].length < 3 %> <%= 'long' if ['State House District 43 Democratic Primary', 'Secretary of State Democratic Primary'].index(contest) %>">
+          <h3><%= candidate['name'] %></h3>
+          <div class="img" style="background-image: url('<%= candidate["photo"] || 'images/unknown.png' %>');" ></div>
+          <div class="social">
+            <% if candidate['website'] %>
+              <a target="_blank" href="<%= candidate['website'] %>">
+                <i  class="fa fa-link"></i>
+                Website
+              </a>
+            <% end %>
+            <% if candidate['facebook'] %>
+              <a target="_blank" href="<%= candidate['facebook'] %>">
+              <i class="fa fa-facebook-square"></i>
+              Facebook
+              </a>
+            <% end %>
+          </div>
+          <% if candidate['endorsements'] %>
+            <div class="endorsements">
+              <h4>Endorsed By:</h4>
+              <ul >
+                <% candidate["endorsements"].split('|').each do |endorsement| %>
+                  <li><%= endorsement %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+          <% if candidate['media'] %>
+            <div class="endorsements">
+              <h4>Newspapers:</h4>
+              <ul >
+                <% candidate["media"].split('|').each do |endorsement| %>
+                  <li><%= endorsement %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+          <a class="vote_for" data-name="<%= candidate["name"] %>" data-link="/sharing/candidates/<%= make_uri candidate['office'] %>-<%= make_uri candidate['name'] %>.html" data-office="<%= candidate['office'] %>" onclick="endorsementWidget(this)">endorse</a>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <div class="measures section">
+    <div class="inner">
+      <h1>Ballot Measures</h1>
+      <% @measures.each do |measure| %>
+        <div class="measure" id="!<%= measure['name'].downcase.gsub(' ','-').gsub(/[^a-zA-Z0-9\-]/,'') %>">
+            <h3><%= measure['name'] %></h3>
+            <% %w{yes no}.each do |choice| %>
+              <div class="choice">
+                <div class="thumb">
+                  <span class="fa <%= choice %> fa-thumbs-<%= choice == "yes" ? "up" : "down" %>"></span>
+                </div>
+                <div class="explanation">
+                  <h4>A <span class="yay-or-nay"><%= choice %></span> Vote Means...</h4>
+                  <p><%= measure[choice] %></p>
+                </div>
+                <a type="button" class="vote_for" data-name="<%= choice.upcase %>" data-link="/sharing/measure/<%= choice+'-'+measure['name'].downcase.gsub(' ','-').gsub(/[^a-zA-Z0-9\-]/,'') %>" data-office="<%= measure['name'] %>" onclick="endorsementWidget(this)">endorse</a>
+              </div>
+            <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="/javascripts/main.js"></script>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-77156571-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+</body>
+</html>
