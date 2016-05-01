@@ -59,16 +59,16 @@ class Controller
 
     def candidates candidate
         name = candidate['name']
+        name_short = candidate['name'].gsub(/\s/,'_').downcase
         office = candidate['office']
         @anchor =  "@#{candidate['office']}-#{candidate['party']}"
         @filename = "candidates/#{make_uri candidate['office']}-"\
                     "#{make_uri candidate['name']}"
         @meta_partial = set_meta({
             'url' => "#{@base.url}/sharing/#{@filename}.html",
-            'image' => "#{@base.url}/#{candidate['photo']}",
-            'title' => "Vote #{name} for #{office}",
-            'description' => "I'm voting for #{name} for #{office} - "\
-                             "and you should too",
+            'image' => "#{@base.url}/images/candidates/shared/#{name_short}.png",
+            'title' => "Vote Bernie for President and #{name} for #{office}",
+            'description' => "This is our movement - support Bernie Sanders for President and #{name} for #{office} and start a political revolution",
         })
     end
 
