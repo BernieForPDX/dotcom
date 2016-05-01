@@ -31,6 +31,11 @@ body {
   background: $background url('/images/bird.jpg') top left no-repeat;
   background-attachment:fixed;
   background-size: cover;
+  @include gridle_state(tablet) {
+    background: $background url('/images/bird_med.jpeg') top left;
+    background-attachment:fixed;
+    background-size: contain;
+  }
   padding: 30px 0;
 }
 .container {
@@ -301,7 +306,7 @@ a.vote_for {
     text-transform: uppercase;
     color: $second-emphasis;
     cursor: pointer;
-    background: lighten($emphasis, 30%);
+    background: $emphasis;
     padding: 4px 8px;
     font-weight: bold;
     letter-spacing: 1px;
@@ -330,8 +335,6 @@ a.vote_for {
     a.vote_for { z-index: 13; opacity: 0.7; }
 
     .outers {
-        border-radius: $border_radius;
-        box-shadow: #fff 0px 0px 10px 30px;
         pointer-events: all;
         position: absolute;
         z-index: 11;

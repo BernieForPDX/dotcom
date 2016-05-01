@@ -9,9 +9,6 @@ end
 def measures_data
     JSON.parse(File.read('data/measures.json'))
 end
-def ted_data
-    JSON.parse(File.read('data/ted.json'))
-end
 def contest_data
     JSON.parse(File.read('data/contests.json'))
 end

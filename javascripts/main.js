@@ -91,6 +91,9 @@
 
         parent.className += ' now_voting_for'
 
+        var img = parent.querySelector('.img')
+        img.style.backgroundImage = 'url('+img.getAttribute('data-endorsing')+')'
+
         button.onclick = endorsementWidgetclose
         button.innerText = 'close'
 

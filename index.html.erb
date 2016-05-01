@@ -31,7 +31,7 @@
       <% @candidates["Portland Mayor"].each do |candidate| %>
          <div class="candidate <%= "row-#{[nil,1,2][@candidates.length]}" if @candidates.length < 3 %> long">
           <h3><%= candidate['name'] %></h3>
-          <div class="img" style="background-image: url('<%= candidate["photo"] || 'images/unknown.jpg' %>');" ></div>
+          <div class="img" style="background-image: url('<%= candidate["photo"] || 'images/unknown.jpg' %>');"  data-endorsing="/images/candidates/shared/<%= candidate['name'].gsub(/\s/,'_').downcase %>.png"></div>
           <div class="social">
             <% if candidate['website'] %>
               <a target="_blank" href="<%= candidate['website'] %>">
@@ -74,7 +74,7 @@
         <% @candidates[contest].each do |candidate| %>
           <div class="candidate <%= "row-#{[nil,1,2][@candidates[contest].length]}" if @candidates[contest].length < 3 %> <%= 'long' if ['State House District 43 Democratic Primary', 'Secretary of State Democratic Primary'].index(contest) %>">
           <h3><%= candidate['name'] %></h3>
-          <div class="img" style="background-image: url('<%= candidate["photo"] || 'images/unknown.png' %>');" ></div>
+          <div class="img" style="background-image: url('<%= candidate["photo"] || 'images/unknown.png' %>');" data-endorsing="/images/candidates/shared/<%= candidate['name'].gsub(/\s/,'_').downcase %>.png"></div>
           <div class="social">
             <% if candidate['website'] %>
               <a target="_blank" href="<%= candidate['website'] %>">
